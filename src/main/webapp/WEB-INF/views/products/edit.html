@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/shop/{id}(id=${product.getId()})}" th:object="${product}">
+    <label for="name">Enter product category: </label>
+    <input type="text" th:field="*{category}" id="category"/>
+    <div style="color:red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Category Error</div>
+    <br/>
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+    <br/>
+    <label for="price">Enter price: </label>
+    <input type="number" th:field="*{price}" id="price"/>
+    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
+    <br/>
+    <label for="manufacturer">Enter Manufacturer name: </label>
+    <input type="text" th:field="*{manufacturer}" id="manufacturer"/>
+    <div style="color:red" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}">Manufacturer name Error</div>
+    <br/>
+    <label for="volume">Enter volume: </label>
+    <input type="text" th:field="*{volume}" id="volume"/>
+    <div style="color:red" th:if="${#fields.hasErrors('volume')}" th:errors="*{volume}">Volume Error</div>
+    <br/>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

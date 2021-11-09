@@ -4,29 +4,73 @@ package com.example.midterm.controllers;
 import com.example.midterm.dao.ShopDAO;
 import com.example.midterm.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/shop")
 public class ProductControllers {
 
+    @Autowired
     private final ShopDAO shopDAO;
-
     @Autowired
     public ProductControllers(ShopDAO shopDAO) {
         this.shopDAO = shopDAO;
     }
 
+    public void refreshTotal(Model model){
+
+    }
+
+    @GetMapping("/cashbox")
+    public String cashbox(String keyword, Model model ){
+        showAllOrder(model);
+        if (keyword !=null){
+            model.addAttribute("products", shopDAO.findByKeyword(keyword));
+            return "products/cashbox";
+        } else{
+        model.addAttribute("products", shopDAO.index());
+            return "products/cashbox";}
+    }
+
+    public void showAllOrder(Model model){
+        model.addAttribute("order", shopDAO.indexOrders());
+        model.addAttribute("total", shopDAO.refreshTotal());
+    }
+
+    @PostMapping("add/{id}")
+    public String addOrder(@PathVariable("id") int id,  Model model){
+        shopDAO.checkOrderAndChange(id);
+        model.addAttribute("products", shopDAO.index());
+
+        showAllOrder(model);
+
+        return "products/cashbox";
+    }
+
+    @DeleteMapping("delete/{id}")
+    public String deleteOrder(@PathVariable("id") int id,  Model model) {
+        shopDAO.deleteOrder(id);
+        model.addAttribute("products", shopDAO.index());
+        showAllOrder(model);
+        return "products/cashbox";
+    }
 
     @GetMapping("productList")
-    public String index(Model model){
-        model.addAttribute("products", shopDAO.index());
-        return "products/index";
+    public String index(String keyword, Model model){
+        if (keyword !=null){
+            model.addAttribute("products", shopDAO.findByKeyword(keyword));
+            return "products/index";
+        } else{
+            model.addAttribute("products", shopDAO.index());
+            return "products/index";}
     }
 
     @GetMapping("/{id}")
@@ -57,7 +101,6 @@ public class ProductControllers {
         return "products/edit";
     }
 
-
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult,
                          @PathVariable("id") int id) {
@@ -73,7 +116,5 @@ public class ProductControllers {
         shopDAO.delete(id);
         return "redirect:/shop/productList";
     }
-
-
 
 }

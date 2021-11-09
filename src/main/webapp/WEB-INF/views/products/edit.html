@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
 <form th:method="PATCH" th:action="@{/shop/{id}(id=${product.getId()})}" th:object="${product}">
     <label for="name">Enter product category: </label>
-    <input type="text" th:field="*{category}" id="category"/>
+    <input type="text" th:field="*{category}" id="category" class="form-control mb-4 col-4"/>
     <div style="color:red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Category Error</div>
     <br/>
     <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input type="text" th:field="*{name}" id="name" class="form-control mb-4 col-4"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
     <br/>
-    <label for="price">Enter price: </label>
-    <input type="number" th:field="*{price}" id="price"/>
-    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
-    <br/>
     <label for="manufacturer">Enter Manufacturer name: </label>
-    <input type="text" th:field="*{manufacturer}" id="manufacturer"/>
+    <input type="text" th:field="*{manufacturer}" id="manufacturer" class="form-control mb-4 col-4"/>
     <div style="color:red" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}">Manufacturer name Error</div>
     <br/>
+    <label for="price">Enter price: </label>
+    <input type="number" th:field="*{price}" id="price" class="form-control mb-2 col-2"/>
+    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
+    <br/>
     <label for="volume">Enter volume: </label>
-    <input type="text" th:field="*{volume}" id="volume"/>
+    <input type="text" th:field="*{volume}" id="volume" class="form-control mb-2 col-2"/>
     <div style="color:red" th:if="${#fields.hasErrors('volume')}" th:errors="*{volume}">Volume Error</div>
     <br/>
-    <input type="submit" value="Update"/>
+    <button type="submit" class="btn btn-info mb-4 col-4">Update</button>
 </form>
+</div>
 </body>
 </html>
